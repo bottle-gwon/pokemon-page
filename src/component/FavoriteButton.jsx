@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux"
 import { favoriteSlice } from "../RTK/slice";
 
-export default function FacoriteButton({ pokemonId }) {
+export default function FavoriteButton({ pokemonId }) {
 	const isFavorite = useSelector(state => state.favorite.some((item => item === pokemonId)))
 	const dispatch = useDispatch();
 
