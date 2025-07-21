@@ -6,3 +6,8 @@ export const selectPokemonbyId = (pokemonId) => createSelector(
     pokemon.find(el => el.id === pokemonId)
   
 )
+
+export const selectPokemonbyRegExp = (reg) => createSelector(
+  state => state.pokemon.data,
+  (pokemon) => pokemon.filter(el => el.name.match(reg))
+)
