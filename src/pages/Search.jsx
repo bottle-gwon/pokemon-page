@@ -10,7 +10,6 @@ export default function Search() {
   const reg = getRegExp(param)
 
   const pokemon = useSelector(selectPokemonbyRegExp(reg))
-  console.log(pokemon);
   return(
     <>
       {pokemon.map(el => <Card key={el.id} pokemon={el} />)}

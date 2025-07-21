@@ -8,7 +8,6 @@ export const fetchMultiplePokemonById = createAsyncThunk(
     const fetchPokeAPI = async (pokeId) => {
       const response = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${pokeId}/`)
       const data = await response.json()
-      console.log(data.flavor_text_entries.find(el => el.language.name === 'ko').flavor_text)
 
       const pokemonData = {
       id: pokeId,
