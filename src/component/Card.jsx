@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router"
 import FavoriteButton from "./FavoriteButton"
-import { useState } from "react"
+import { memo, useState } from "react"
 
 const cardStyle = 
 `bg-white w-[150px] border border-solid
@@ -11,7 +11,7 @@ const cardStyle =
  border-b-[5px] border-r-[5px]
  `
 
-export const Card = ({pokemon}) => {
+export const Card = memo(({pokemon}) => {
   const [isImageLoading, setIsImageLoading] = useState(true)
   const navigate = useNavigate()
   return (
@@ -25,4 +25,4 @@ export const Card = ({pokemon}) => {
     </div>
   </section>
   )
-}
+})
