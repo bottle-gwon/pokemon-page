@@ -1,20 +1,13 @@
 import { useSelector } from "react-redux"
-import styled from "styled-components"
+import { Card } from "../component/Card"
 
 export default function Main() {
-  const pokemonData = useSelector(state => state.pokemon)
+  const pokemonData = useSelector(state => state.pokemon.data)
     
   return(
-  <div>
-    {pokemonData.data.map(el => (
-      <section>
-        <img src={el.front} alt="front_img" />
-        <div>{el.name}</div>
-      </section>
-    ))}
-  </div>)
+  <>
+    {pokemonData.map(el => <Card key={el.id} pokemon={el} />)}
+  </>)
 }
 
-const CardContainer = styled.section`
 
-`

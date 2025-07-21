@@ -1,3 +1,16 @@
+import { useSelector } from "react-redux"
+import { useParams } from "react-router"
+import { selectPokemonbyId } from "../RTK/selector"
+
 export default function Detail() {
-    return(<div>Detail</div>)
+  const { pokemonId } = useParams()
+  const pokemon = useSelector(selectPokemonbyId(Number(pokemonId)))
+  return(
+  <div className="flex flex-col justify-center items-center border border-[gray] p-[30px] rounded-[10px]">
+    <div className="text-[28px] mb-[10px]">{pokemon.name}</div>
+    <div className="whitespace-pre-wrap text-center">{pokemon.description}</div>
+    <img className="w-[200px]" src={pokemon.front} />
+    <img className="w-[200px]" src={pokemon.back} />
+  </div>
+  )
 }
