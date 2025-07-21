@@ -1,39 +1,36 @@
 import { useEffect } from 'react'
-import './App.css'
+import './App.scss'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchMultiplePokemonById } from './RTK/thunk'
+import { Link, Route, Routes } from 'react-router';
+import Main from './pages/Main';
+import Detail from './pages/Detail';
+import Search from './pages/Search';
+import Favorite from './pages/Favorite';
 
 function App() {
+  const dispatch = useDispatch();
+
   useEffect(() =>{
-    const idArray = Array.from({length: 151}, (_, i)=>i+1)
-
-    const fetchPokeAPI = async (pokeId) => {
-      const response = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${pokeId}/`)
-      const data = await response.json()
-      console.log(data.flavor_text_entries.find(el => el.language.name === 'ko').flavor_text)
-
-      const pokemonData = {
-      id: pokeId,
-      name: data.names.find(el => el.language.name === 'ko').name,
-      description: data.flavor_text_entries.find(el => el.language.name === 'ko').flavor_text,
-      back: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/${pokeId}.png`,
-      front: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokeId}.png`,
-      }
-      return pokemonData;
-    }
-    const fetchPokeFirstGenData = async () => {
-      const pokeDatas = await Promise.all(idArray.map((el) => fetchPokeAPI(el)));
-      console.log(pokeDatas);
-    }
-    
-    fetchPokeFirstGenData();
-    // 가져올 데이터 (한국어)
-    // 포켓몬 이름
-    // 포켓몬 이미지 -> 앞 뒤
-    // 포켓몬 설명
-    // 1세대 는 151마리
+    dispatch(fetchMultiplePokemonById(151));
   }, [])
   return (
     <>
-
+      <h1 className='text-[40px] text-center'>포켓몬 도감</h1>
+      <nav className='flex gap-[10px] justify-center'>
+        <Link to={'/'}>Main</Link>
+        <Link to={'/detail/1'}>상세정보</Link>
+        <Link to={'/search'}>검색</Link>
+        <Link to={'/favorite'}>찜목록</Link>
+      </nav>
+      <main className='flex justify-center'>
+        <Routes>
+          <Route path={'/'} element= { <Main /> } />
+          <Route path={'/detail/:pokemonId'} element={ <Detail /> } />
+          <Route path={'/search'} element={ <Search /> }/>
+          <Route path={'/favorite'} element={ <Favorite />}/>
+        </Routes>
+      </main>
     </>
   )
 }
