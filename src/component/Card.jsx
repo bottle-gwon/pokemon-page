@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router"
 import FavoriteButton from "./FavoriteButton"
+import { useState } from "react"
 
 const cardStyle = 
 `bg-white w-[150px] border border-solid
@@ -11,11 +12,13 @@ const cardStyle =
  `
 
 export const Card = ({pokemon}) => {
+  const [isImageLoading, setIsImageLoading] = useState(true)
   const navigate = useNavigate()
   return (
   <section onClick={() => navigate(`/detail/${pokemon.id}`)}
   className={cardStyle}>
-    <img src={pokemon.front} alt="front_img" className="w-[120px]"/>
+    {isImageLoading ? <div className="w-[120px] h-[120px] leading-[120px] text-center">로딩중...</div> : null}
+    <img onLoad={()=>setIsImageLoading(false)} src={pokemon.front} alt="front_img" className={`${isImageLoading ? 'none' : 'block'} w-[120px]`}/>
     <div>
       {pokemon.name}
       <FavoriteButton pokemonId={pokemon.id} />
