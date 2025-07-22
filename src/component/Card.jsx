@@ -9,7 +9,7 @@ const cardStyle =
  hover:scale-[1.1] duration-[0.15s]
  hover:drop-shadow-xl hover:drop-shadow-[rgba(0,0,0,0.5)]
  border-b-[5px] border-r-[5px]
- `
+`
 
 export const Card = memo(({pokemon}) => {
   const [isImageLoading, setIsImageLoading] = useState(true)

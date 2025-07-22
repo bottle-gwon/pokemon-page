@@ -6,15 +6,19 @@ export const fetchMultiplePokemonById = createAsyncThunk(
     const idArray = Array.from({length: maxPokemonId}, (_, i)=>i+1)
 
     const fetchPokeAPI = async (pokeId) => {
-      const response = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${pokeId}/`)
-      const data = await response.json()
+      const baseDataResponse = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${pokeId}/`)
+      const baseData = await baseDataResponse.json()
+      const detailDataResponse = await fetch(`https://pokeapi.co/api/v2/pokemon/${baseData.name}/`)
+      const detailData = await detailDataResponse.json()
 
       const pokemonData = {
       id: pokeId,
-      name: data.names.find(el => el.language.name === 'ko').name,
-      description: data.flavor_text_entries.find(el => el.language.name === 'ko').flavor_text,
+      name: baseData.names.find(el => el.language.name === 'ko').name,
+      description: baseData.flavor_text_entries.find(el => el.language.name === 'ko').flavor_text,
       back: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/${pokeId}.png`,
       front: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokeId}.png`,
+      cry: detailData.cries.latest,
+
       }
         return pokemonData;
     }

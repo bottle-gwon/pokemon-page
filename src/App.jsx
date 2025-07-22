@@ -1,5 +1,4 @@
-import { lazy, Suspense, useEffect } from 'react'
-import './App.scss'
+import { lazy, Suspense, useEffect, useState } from 'react'
 import { useDispatch  } from 'react-redux'
 import { fetchMultiplePokemonById } from './RTK/thunk'
 import { Link, Route, Routes, useNavigate } from 'react-router';
@@ -13,6 +12,22 @@ const Favorite = lazy(() => import('./pages/Favorite'))
 function App() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [searchItem, setSerachItem] = useState('');
+
+  const handleChangeDebound = (e) =>{
+    setSerachItem(e.target.value)
+  };
+  const handleSearchClick = (e) =>{
+    navigate(`/search?pokemon=${e.target.previousSibling.value}`)
+  }
+
+  useEffect(()=>{
+    const deboundTimer = setTimeout(()=>{
+    console.log(searchItem === '')
+    searchItem === '' ? null : navigate(`/search?pokemon=${searchItem}`)
+    },1000);
+    return () => clearTimeout(deboundTimer);
+  },[searchItem])
 
   useEffect(() =>{
     dispatch(fetchMultiplePokemonById(151));
@@ -23,12 +38,12 @@ function App() {
       <nav className='py-[10px] border-b-[3px] border-b-black flex gap-[20px] justify-center'>
         <Link to={'/'}>Main</Link>
         <Link to={'/favorite'}>찜목록</Link>
-        <span>검색</span>
+        <span>검색창</span>
         <div>
           <input 
-          onChange={(e) => navigate(`/search?pokemon=${e.target.value}`)} 
+          onChange={handleChangeDebound} 
           className='w-[120px] border-b border-[darkgray] px-2' />
-          <span>🔍</span>
+          <span onClick={handleSearchClick}>🔍</span>
         </div>
       </nav>
       <main className='bg-[gray] flex flex-wrap gap-[20px] justify-center pt-[20px] pb-[20px]'>
